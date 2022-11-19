@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>类式组件中的构造器与 props</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/react.development.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script
+			type="text/javascript"
+			src="../js/react-dom.development.js"
+		></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+		<!-- 引入 prop-types 用于对组件的 props 进行限制 -->
+		<script type="text/javascript" src="../js/prop-types.js"></script>
+	</head>
+
+	<body>
+		<!-- 准备好一个“容器” -->
+		<div id="test1"></div>
+
+		<script type="text/babel">
+			/* class Person extends React.Component {
+				constructor(props) {
+					// 构造器中是否接收 props 参数 + 是否传递给 super()，取决于是否希望在构造器中通过 this 访问 props
+					super(props)
+					console.log(this.props)
+				}
+				// 对标签属性进行类型、必要性限制
+				static propTypes = {
+					name: PropTypes.string.isRequired, // 限制 name 为字符串且必传
+					gender: PropTypes.string, // 限制 gender 为字符串
+					age: PropTypes.number, // 限制 age 为数值类型
+					speak: PropTypes.func // 限制 speak 为函数
+				}
+				// 对标签属性设置默认值
+				static defaultProps = {
+					gender: '未知', // gender 默认值为“未知”
+					age: 18 // age 默认值为 18
+				}
+				render() {
+					const { name, gender, age } = this.props
+					return (
+						<ul>
+							<li>姓名：{name}</li>
+							<li>性别：{gender}</li>
+							<li>年龄：{age + 1}</li>
+						</ul>
+					)
+				}
+			} */
+
+			function Person(props) {
+				// 函数式组件采用函数传参的方式使用 props
+				const { name, gender, age } = props
+				return (
+					<ul>
+						<li>姓名：{name}</li>
+						<li>性别：{gender}</li>
+						<li>年龄：{age + 1}</li>
+					</ul>
+				)
+			}
+
+			Person.propTypes = {
+				name: PropTypes.string.isRequired, // 限制 name 为字符串且必传
+				gender: PropTypes.string, // 限制 gender 为字符串
+				age: PropTypes.number, // 限制 age 为数值类型
+				speak: PropTypes.func // 限制 speak 为函数
+			}
+			// 对标签属性设置默认值
+			Person.defaultProps = {
+				gender: '未知', // gender 默认值为“未知”
+				age: 18 // age 默认值为 18
+			}
+
+			ReactDOM.render(
+				<Person name="小刚" age={21} />,
+				document.querySelector('#test1 ')
+			)
+		</script>
+	</body>
+</html>
