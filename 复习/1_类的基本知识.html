@@ -9,11 +9,11 @@
 	<body>
 		<script type="text/javascript">
 			/*
-        总结：
-          1.类中的构造器不是必须写的，要对实例进行一些初始化的操作，如添加指定属性时才写。
-          2.如果 A 类继承了 B 类，且 A 类中写了构造器，那么 A 类中的构造器中 super 是必须要调用的。
-          3.类中所定义的方法，都是放在了类的原型对象上，供实例去使用。
-      */
+			     总结：
+			       1.类中的构造器不是必须写的，要对实例进行一些初始化的操作，如添加指定属性时才写。
+			       2.如果 A 类继承了 B 类，且 A 类中写了构造器，那么 A 类中的构造器中 super 是必须要调用的。
+			       3.类中所定义的方法，都是放在了类的原型对象上，供实例去使用。
+			   */
 			// 创建一个 Person 类
 			class Person {
 				// 构造函数
@@ -62,6 +62,20 @@
 			console.log(s1)
 			s1.speak()
 			s1.study()
+
+			class Car {
+				constructor(name, price) {
+					this.name = name
+					this.price = price
+				}
+				// 类中可以指额写赋值语句，如下代码的含义，给 Car 的实例对象添加一个属性，名为 wheel 值为 4
+				wheel = 4
+			}
+
+			const c1 = new Car('跑跑', 134)
+			const c2 = new Car('奔奔', 123)
+			console.log(c1)
+			console.log(c2)
 		</script>
 	</body>
 </html>
