@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>类中的方法指向</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			class Student {
+				constructor(name, age) {
+					this.name = name
+					this.age = age
+				}
+				study() {
+					console.log(this)
+				}
+			}
+
+			const s1 = new Student('小明', 13)
+			s1.study() // s1 实例对象
+
+			const x = s1.study // 函数赋值
+			x() // undefined  类中的方法默认局部开启严格模式
+
+			function test1() {
+				console.log(this)
+			}
+			function test2() {
+				'use strict'
+				console.log(this)
+			}
+			test1()
+			test2()
+		</script>
+	</body>
+</html>
