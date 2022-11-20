@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>回调形式的 refs</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/react.development.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script
+			type="text/javascript"
+			src="../js/react-dom.development.js"
+		></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+		<!-- 引入 prop-types 用于对组件的 props 进行限制 -->
+		<script type="text/javascript" src="../js/prop-types.js"></script>
+	</head>
+
+	<body>
+		<!-- 准备好一个“容器” -->
+		<div id="test"></div>
+
+		<script type="text/babel">
+			class InfoShow extends React.Component {
+				showData = () => {
+					console.log(this)
+					alert(this.input1.value)
+				}
+				showData2 = () => {
+					const { input2 } = this
+					alert(input2.value)
+				}
+				render() {
+					return (
+						<div>
+							<input
+								ref={c => (this.input1 = c)}
+								type="text"
+								placeholder="点击左侧按钮显示输入内容"
+							/>
+							&nbsp;
+							<button onClick={this.showData}>点击显示右侧输入内容</button>
+							&nbsp;
+							<input
+								ref={c => (this.input2 = c)}
+								type="text"
+								placeholder="失去焦点显示输入内容"
+								onBlur={this.showData2}
+							/>
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<InfoShow />, document.querySelector('#test'))
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>回调形式的 refs 调用次数问题</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/react.development.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script
+			type="text/javascript"
+			src="../js/react-dom.development.js"
+		></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+		<!-- 引入 prop-types 用于对组件的 props 进行限制 -->
+		<script type="text/javascript" src="../js/prop-types.js"></script>
+	</head>
+
+	<body>
+		<!-- 准备好一个“容器” -->
+		<div id="test"></div>
+
+		<script type="text/babel">
+			class InfoShow extends React.Component {
+				state = {
+					isHot: false
+				}
+				showData = () => {
+					console.log(this)
+					alert(this.input1.value)
+				}
+				changeWeather = () => {
+					const { isHot } = this.state
+					this.setState({ isHot: !isHot })
+				}
+				saveInput = c => {
+					this.input1 = c
+					console.log('@', c)
+				}
+				render() {
+					const { isHot } = this.state
+					return (
+						<div>
+							<h1>今天的天气很{isHot ? '炎热' : '凉爽'}</h1>
+							{/*<input
+								ref={currentNode => {
+									this.input1 = currentNode
+									console.log('@', currentNode)
+								}}
+								type="text"
+								placeholder="点击左侧按钮显示输入内容"
+							/>*/}
+							<input
+								ref={this.saveInput}
+								type="text"
+								placeholder="点击左侧按钮显示输入内容"
+							/>
+							<br />
+							<br />
+							<button onClick={this.showData}>点击显示右侧输入内容</button>
+							&nbsp;
+							<button onClick={this.changeWeather}>点击切换天气</button>
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<InfoShow />, document.querySelector('#test'))
+		</script>
+	</body>
+</html>

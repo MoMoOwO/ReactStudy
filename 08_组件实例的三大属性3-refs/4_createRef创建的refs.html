@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>createRef 创建的 refs</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/react.development.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script
+			type="text/javascript"
+			src="../js/react-dom.development.js"
+		></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+		<!-- 引入 prop-types 用于对组件的 props 进行限制 -->
+		<script type="text/javascript" src="../js/prop-types.js"></script>
+	</head>
+
+	<body>
+		<!-- 准备好一个“容器” -->
+		<div id="test"></div>
+
+		<script type="text/babel">
+			class InfoShow extends React.Component {
+				inputRef1 = React.createRef()
+				inputRef2 = React.createRef()
+				showData = () => {
+					console.log(this)
+					alert(this.inputRef1.current.value)
+				}
+				showData2 = () => {
+					alert(this.inputRef2.current.value)
+				}
+				render() {
+					return (
+						<div>
+							<input
+								ref={this.inputRef1}
+								type="text"
+								placeholder="点击左侧按钮显示输入内容"
+							/>
+							&nbsp;
+							<button onClick={this.showData}>点击显示右侧输入内容</button>
+							&nbsp;
+							<input
+								ref={this.inputRef2}
+								type="text"
+								placeholder="失去焦点显示输入内容"
+								onBlur={this.showData2}
+							/>
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<InfoShow />, document.querySelector('#test'))
+		</script>
+	</body>
+</html>
