@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>引出组件生命周期</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/react.development.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script
+			type="text/javascript"
+			src="../js/react-dom.development.js"
+		></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+	</head>
+	<body>
+		<div id="test"></div>
+
+		<script type="text/babel">
+			// 创建组件
+			// 生命周期中的回调函数--生命周期函数/生命周期钩子函数/生命周期钩子
+			class Life extends React.Component {
+				state = { opacity: 1 }
+				death = () => {
+					// 清除定时器
+					// clearInterval(this.timer)
+					// 卸载组件
+					ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+				}
+
+				// 组件挂载完毕，只调用 1 次
+				componentDidMount() {
+					this.timer = setInterval(() => {
+						// 取值
+						let { opacity } = this.state
+						// 改变值
+						opacity -= 0.1
+						if (opacity <= 0) opacity = 1 //
+						// 赋新值
+						this.setState({ opacity })
+					}, 200)
+				}
+
+				// 组件将要卸载时调用，只调用依次
+				componentWillUnmount() {
+					// 清除定时器
+					clearInterval(this.timer)
+				}
+
+				// 组件挂载、状态更新之后调用，1+n次
+				render() {
+					return (
+						<div>
+							<h2 style={{ opacity: this.state.opacity }}>
+								学不会 React 怎么办？
+							</h2>
+							<button onClick={this.death}>不活了</button>
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<Life />, document.getElementById('test'))
+		</script>
+	</body>
+</html>
