@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>getSnapshotBeforeUpdate使用场景</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/17.0.1/react.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script type="text/javascript" src="../js/17.0.1/react-dom.js"></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+		<style>
+			.list {
+				width: 200px;
+				height: 150px;
+				background-color: skyblue;
+				overflow: auto;
+			}
+			.news {
+				height: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="test"></div>
+
+		<script type="text/babel">
+			class NewsList extends React.Component {
+				state = {
+					newsArr: []
+				}
+				componentDidMount() {
+					setInterval(() => {
+						// 获取组件状态
+						const { newsArr } = this.state
+						const news = '新闻' + (newsArr.length + 1)
+						//更新状态
+						this.setState({ newsArr: [news, ...newsArr] })
+					}, 1000)
+				}
+				getSnapshotBeforeUpdate() {
+					const height = this.refs.list.scrollHeight
+					return height
+				}
+				componentDidUpdate(preProps, preState, height) {
+					this.refs.list.scrollTop += this.refs.list.scrollHeight - height
+				}
+				render() {
+					return (
+						<div className="list" ref="list">
+							{this.state.newsArr.map((item, index) => {
+								return (
+									<div key={index} className="news">
+										{item}
+									</div>
+								)
+							})}
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<NewsList />, document.getElementById('test'))
+		</script>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>getDerivedStateFromProps使用场景</title>
+		<!-- 引入react 核心库 -->
+		<script type="text/javascript" src="../js/17.0.1/react.js"></script>
+		<!-- 引入 react-dom 用于支持 react 操作 DOM -->
+		<script type="text/javascript" src="../js/17.0.1/react-dom.js"></script>
+		<!-- 引入 babel 用于将 jsx 转为 js -->
+		<script type="text/javascript" src="../js/babel.min.js"></script>
+	</head>
+	<body>
+		<div id="test"></div>
+
+		<script type="text/babel">
+			class Count extends React.Component {
+				// 构造器
+				constructor(props) {
+					console.log('Count----constructor')
+					super(props)
+					this.state = {
+						count: 0
+					}
+				}
+
+				// 增加的方法
+				add = () => {
+					let { count } = this.state
+					this.setState({ count: count + 1 })
+				}
+
+				// 卸载组件方法
+				delCom = () => {
+					ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+				}
+
+				// 强制更新组件
+				updateCom = () => {
+					this.forceUpdate()
+				}
+
+				// 生命周期钩子
+				// 组件即将挂载时
+				/* UNSAFE_componentWillMount() {
+					console.log('Count----componentWillMount')
+				} */
+				// 若 state 的值在任何时候都取决于 props，那么可以使用 此钩子
+				static getDerivedStateFromProps(props, state) {
+					console.log(props, state)
+					console.log('Count----getDerivedStateFromProps')
+					return null
+				}
+
+				// 在更新之前获取快照，传递给 componentDidUpdate()
+				getSnapshotBeforeUpdate() {
+					console.log('Count----getSnapshotBeforeUpdate')
+					return null
+				}
+
+				// 组件挂载完毕
+				componentDidMount() {
+					console.log('Count----componentDidMount')
+				}
+
+				// 组件即将卸载
+				/* UNSAFE_componentWillUnmount() {
+					console.log('Count----componentWillUnmount')
+				} */
+
+				// 控制组件是否更新的“阀门”
+				shouldComponentUpdate() {
+					console.log('Count----shouldComponentUpdate')
+					return true // 必须返回一个布尔值决定是否进行组件更新，默认不写此钩子会自动生成一个该钩子并返回 true
+				}
+
+				// 组件将要更新的钩子
+				/* UNSAFE_componentWillUpdate() {
+					console.log('Count----componentWillUpdate')
+				} */
+
+				// 组件更新完毕
+				componentDidUpdate(preProps, preState, snapshotValue) {
+					console.log(
+						'Count----componentDidUpdate',
+						preProps,
+						preState,
+						snapshotValue
+					)
+				}
+
+				// 渲染函数
+				render() {
+					console.log('Count----render')
+					const { count } = this.state
+					return (
+						<div>
+							<h2>点击次数：{count}</h2>
+							<button onClick={this.add}>点我</button>
+							<br />
+							<br />
+							<button onClick={this.delCom}>卸载组件</button>
+							<br />
+							<br />
+							<button onClick={this.updateCom}>
+								不改变状态中数据，强制更新数据
+							</button>
+						</div>
+					)
+				}
+			}
+
+			ReactDOM.render(<Count count={199} />, document.getElementById('test'))
+		</script>
+	</body>
+</html>
