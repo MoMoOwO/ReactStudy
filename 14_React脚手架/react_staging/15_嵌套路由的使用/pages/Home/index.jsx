@@ -12,7 +12,7 @@ export default class Home extends Component {
 			<div>
 				<h3>我是首页内容</h3>
 				<div>
-					<ul class="nav nav-tabs">
+					<ul className="nav nav-tabs">
 						<li>
 							{/* <a class="list-group-item" href="./home-news.html">
 								News
